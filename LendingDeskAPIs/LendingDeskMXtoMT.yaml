@@ -1,0 +1,799 @@
+openapi: 3.1.0
+info:
+  title: MXtoMT
+  version: '1.0'
+  description: Service to translate MX based JSON requests to MT messages
+  contact:
+    email: johanp@strate.co.za
+    name: Johan Pretorius
+    url: www.strate.co.za
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /SctiesSttlmTxInstr:
+    post:
+      summary: ''
+      operationId: SecuritiesSettlementTransactionInstruction
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  description:
+                    type: string
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: TODO
+          description: Get minimum headers from SAI
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  SctiesSttlmTxInstr:
+                    TxId: ABC1234
+                    Lnkgs:
+                      - Ref:
+                          PoolIdentification: '1234'
+                      - Ref:
+                          OthrTxId: '1234'
+                    SttlmTpAndAddtlParams:
+                      SctiesMvmntTp: DELI
+                      Pmt: FREE
+                    TradDtls:
+                      TradDt:
+                        Dt:
+                          Dt: '2021-01-01'
+                      SttlmDt:
+                        Dt:
+                          Dt: '2021-01-01'
+                    SttlmInstrPrcgAddtlDtls:
+                      GrpRef: GRP123
+                    FinInstrmId:
+                      ISIN: ZAE012345678
+                    QtyAndAcctDtls:
+                      SttlmQty:
+                        Qty:
+                          Unit: '123000,'
+                      SfkpgAcct:
+                        Id: ABAB123
+                    DlvrgSttlmPties:
+                      Pty1:
+                        Id:
+                          AnyBIC: STRAZAJ0XXX
+                      Pty2:
+                        Id:
+                          PrtryId: PARTYID123
+                        SfkpgAcct:
+                          Id: '123456'
+                      Pty3:
+                        Id:
+                          PrtryId: PARTYID123
+                    RcvgSttlmPties:
+                      Pty1:
+                        Id:
+                          AnyBIC: STRAZAJ0XXX
+                      Pty2:
+                        Id:
+                          PrtryId: PARTYID123
+                        SfkpgAcct:
+                          Id: '123456'
+                      Pty3:
+                        Id:
+                          PrtryId: PARTYID123
+                    SplmtryData:
+                      LoanTxInd: 'N'
+                      SLBInd: LOAN
+              properties:
+                SctiesSttlmTxInstr:
+                  type: object
+                  required:
+                    - SttlmTpAndAddtlParams
+                    - TradDtls
+                    - SttlmInstrPrcgAddtlDtls
+                    - FinInstrmId
+                    - QtyAndAcctDtls
+                    - SplmtryData
+                  properties:
+                    TxId:
+                      type: string
+                      minLength: 1
+                      description: Transaction identification
+                    Lnkgs:
+                      type: array
+                      uniqueItems: true
+                      minItems: 1
+                      items:
+                        type: object
+                        properties:
+                          Ref:
+                            type: object
+                            description: Only select one option (i.e. PoolIdentification or OthrTxId) per repetition of this block.
+                            properties:
+                              PoolIdentification:
+                                type: string
+                                minLength: 1
+                              OthrTxId:
+                                type: string
+                    SttlmTpAndAddtlParams:
+                      type: object
+                      required:
+                        - SctiesMvmntTp
+                        - Pmt
+                      properties:
+                        SctiesMvmntTp:
+                          type: string
+                          minLength: 1
+                        Pmt:
+                          type: string
+                          minLength: 1
+                    TradDtls:
+                      type: object
+                      required:
+                        - TradDt
+                        - SttlmDt
+                      properties:
+                        TradDt:
+                          type: object
+                          required:
+                            - Dt
+                          properties:
+                            Dt:
+                              type: object
+                              required:
+                                - Dt
+                              properties:
+                                Dt:
+                                  type: string
+                                  minLength: 1
+                        SttlmDt:
+                          type: object
+                          required:
+                            - Dt
+                          properties:
+                            Dt:
+                              type: object
+                              required:
+                                - Dt
+                              properties:
+                                Dt:
+                                  type: string
+                                  minLength: 1
+                    SttlmInstrPrcgAddtlDtls:
+                      type: object
+                      required:
+                        - GrpRef
+                      properties:
+                        GrpRef:
+                          type: string
+                          minLength: 1
+                    FinInstrmId:
+                      type: object
+                      required:
+                        - ISIN
+                      properties:
+                        ISIN:
+                          type: string
+                          minLength: 1
+                    QtyAndAcctDtls:
+                      type: object
+                      required:
+                        - SttlmQty
+                        - SfkpgAcct
+                      properties:
+                        SttlmQty:
+                          type: object
+                          required:
+                            - Qty
+                          properties:
+                            Qty:
+                              type: object
+                              required:
+                                - Unit
+                              properties:
+                                Unit:
+                                  type: string
+                                  minLength: 1
+                        SfkpgAcct:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: string
+                              minLength: 1
+                    DlvrgSttlmPties:
+                      type: object
+                      properties:
+                        Pty1:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: object
+                              required:
+                                - AnyBIC
+                              properties:
+                                AnyBIC:
+                                  type: string
+                                  minLength: 1
+                        Pty2:
+                          type: object
+                          required:
+                            - Id
+                            - SfkpgAcct
+                          properties:
+                            Id:
+                              type: object
+                              required:
+                                - PrtryId
+                              properties:
+                                PrtryId:
+                                  type: string
+                                  minLength: 1
+                            SfkpgAcct:
+                              type: object
+                              required:
+                                - Id
+                              properties:
+                                Id:
+                                  type: string
+                                  minLength: 1
+                        Pty3:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: object
+                              required:
+                                - PrtryId
+                              properties:
+                                PrtryId:
+                                  type: string
+                                  minLength: 1
+                      required:
+                        - Pty1
+                        - Pty2
+                        - Pty3
+                    RcvgSttlmPties:
+                      type: object
+                      properties:
+                        Pty1:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: object
+                              required:
+                                - AnyBIC
+                              properties:
+                                AnyBIC:
+                                  type: string
+                                  minLength: 1
+                        Pty2:
+                          type: object
+                          required:
+                            - Id
+                            - SfkpgAcct
+                          properties:
+                            Id:
+                              type: object
+                              required:
+                                - PrtryId
+                              properties:
+                                PrtryId:
+                                  type: string
+                                  minLength: 1
+                            SfkpgAcct:
+                              type: object
+                              required:
+                                - Id
+                              properties:
+                                Id:
+                                  type: string
+                                  minLength: 1
+                        Pty3:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: object
+                              required:
+                                - PrtryId
+                              properties:
+                                PrtryId:
+                                  type: string
+                                  minLength: 1
+                      required:
+                        - Pty1
+                        - Pty2
+                        - Pty3
+                    SplmtryData:
+                      type: object
+                      required:
+                        - LoanTxInd
+                      properties:
+                        LoanTxInd:
+                          type: string
+                          minLength: 1
+                        SLBInd:
+                          type: string
+                          minLength: 1
+              required:
+                - SctiesSttlmTxInstr
+            examples:
+              DummyExample-SctiesSttlmTxInstr:
+                value:
+                  SctiesSttlmTxInstr:
+                    TxId: ABC1234
+                    Lnkgs:
+                      - Ref:
+                          PoolIdentification: '1234'
+                      - Ref:
+                          OthrTxId: '1234'
+                    SttlmTpAndAddtlParams:
+                      SctiesMvmntTp: DELI
+                      Pmt: FREE
+                    TradDtls:
+                      TradDt:
+                        Dt:
+                          Dt: '2021-01-01'
+                      SttlmDt:
+                        Dt:
+                          Dt: '2021-01-01'
+                    SttlmInstrPrcgAddtlDtls:
+                      GrpRef: GRP123
+                    FinInstrmId:
+                      ISIN: ZAE012345678
+                    QtyAndAcctDtls:
+                      SttlmQty:
+                        Qty:
+                          Unit: '123000,'
+                      SfkpgAcct:
+                        Id: ABAB123
+                    DlvrgSttlmPties:
+                      Pty1:
+                        Id:
+                          AnyBIC: STRAZAJ0XXX
+                      Pty2:
+                        Id:
+                          PrtryId: PARTYID123
+                        SfkpgAcct:
+                          Id: '123456'
+                      Pty3:
+                        Id:
+                          PrtryId: PARTYID123
+                    RcvgSttlmPties:
+                      Pty1:
+                        Id:
+                          AnyBIC: STRAZAJ0XXX
+                      Pty2:
+                        Id:
+                          PrtryId: PARTYID123
+                        SfkpgAcct:
+                          Id: '123456'
+                      Pty3:
+                        Id:
+                          PrtryId: PARTYID123
+                    SplmtryData:
+                      LoanTxInd: 'N'
+                      SLBInd: LOAN
+      description: 'An account owner sends a SecuritiesSettlementTransactionInstruction to an account servicer to instruct the receipt or delivery of financial instruments with or without payment, physically or by book-entry.'
+      tags:
+        - ISO-20022
+    parameters: []
+  /SctiesSttlmTxStsAdvc:
+    post:
+      summary: ''
+      operationId: post-SctiesSttlmTxStsAdvc
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  description:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  SctiesSttlmTxStsAdvc:
+                    TxId:
+                      AcctOwnrTxId: 123ABC
+                    MtchgSts: MRFS
+                    PrcgSts: '0101'
+                    SttlmSts: SETL
+                    TxDtls:
+                      SfkpgAcct:
+                        Id: 1234567
+                      FinInstrId:
+                        ISIN: ZAE012345678
+                      StlmntQty:
+                        Qty:
+                          Unit: 123456
+                      SctiesMvmntTp: DELI
+                      Pmt: FREE
+                      SttlmDt:
+                        Dt:
+                          Dt: '20210521'
+                      TradDt:
+                        Dt:
+                          Dt: '20210521'
+                    RcvgSttlmPties:
+                      Pty1:
+                        Id: BPID
+                      Pty2:
+                        Id: BPID
+                      Pty3:
+                        Id: BPID
+                    DlvrgSttlmPties:
+                      Pty1:
+                        Id: BPID
+                      Pty2:
+                        Id: BPID
+                      Pty3:
+                        Id: BPID
+                    SplmtryData:
+                      GrpRefId: ABC1234
+                      BTBRefId: ABC1234
+                      CntrBTBRefId: ABC1234
+                      BTBRmvlInd: ABC1234
+                      TaxInd: ABC1234
+                      CommitStatus: ABC1234
+                      DPLRefId: ABC1234
+                      ClntType: ABC1234
+              properties:
+                SctiesSttlmTxStsAdvc:
+                  type: object
+                  required:
+                    - TxId
+                    - TxDtls
+                    - RcvgSttlmPties
+                    - DlvrgSttlmPties
+                    - SplmtryData
+                  properties:
+                    TxId:
+                      type: object
+                      required:
+                        - AcctOwnrTxId
+                      properties:
+                        AcctOwnrTxId:
+                          type: string
+                          minLength: 1
+                    MtchgSts:
+                      type: string
+                      minLength: 1
+                    PrcgSts:
+                      type: string
+                      minLength: 1
+                    SttlmSts:
+                      type: string
+                      minLength: 1
+                    TxDtls:
+                      type: object
+                      required:
+                        - SfkpgAcct
+                        - FinInstrId
+                        - StlmntQty
+                        - SctiesMvmntTp
+                        - Pmt
+                        - SttlmDt
+                        - TradDt
+                      properties:
+                        SfkpgAcct:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: number
+                        FinInstrId:
+                          type: object
+                          required:
+                            - ISIN
+                          properties:
+                            ISIN:
+                              type: string
+                              minLength: 1
+                        StlmntQty:
+                          type: object
+                          required:
+                            - Qty
+                          properties:
+                            Qty:
+                              type: object
+                              required:
+                                - Unit
+                              properties:
+                                Unit:
+                                  type: number
+                        SctiesMvmntTp:
+                          type: string
+                          minLength: 1
+                        Pmt:
+                          type: string
+                          minLength: 1
+                        SttlmDt:
+                          type: object
+                          required:
+                            - Dt
+                          properties:
+                            Dt:
+                              type: object
+                              required:
+                                - Dt
+                              properties:
+                                Dt:
+                                  type: string
+                                  minLength: 1
+                        TradDt:
+                          type: object
+                          required:
+                            - Dt
+                          properties:
+                            Dt:
+                              type: object
+                              required:
+                                - Dt
+                              properties:
+                                Dt:
+                                  type: string
+                                  minLength: 1
+                    RcvgSttlmPties:
+                      type: object
+                      required:
+                        - Pty1
+                        - Pty2
+                        - Pty3
+                      properties:
+                        Pty1:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: string
+                              minLength: 1
+                        Pty2:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: string
+                              minLength: 1
+                        Pty3:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: string
+                              minLength: 1
+                    DlvrgSttlmPties:
+                      type: object
+                      required:
+                        - Pty1
+                        - Pty2
+                        - Pty3
+                      properties:
+                        Pty1:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: string
+                              minLength: 1
+                        Pty2:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: string
+                              minLength: 1
+                        Pty3:
+                          type: object
+                          required:
+                            - Id
+                          properties:
+                            Id:
+                              type: string
+                              minLength: 1
+                    SplmtryData:
+                      type: object
+                      required:
+                        - GrpRefId
+                        - BTBRefId
+                        - CntrBTBRefId
+                        - BTBRmvlInd
+                        - TaxInd
+                        - CommitStatus
+                        - DPLRefId
+                        - ClntType
+                      properties:
+                        GrpRefId:
+                          type: string
+                          minLength: 1
+                        BTBRefId:
+                          type: string
+                          minLength: 1
+                        CntrBTBRefId:
+                          type: string
+                          minLength: 1
+                        BTBRmvlInd:
+                          type: string
+                          minLength: 1
+                        TaxInd:
+                          type: string
+                          minLength: 1
+                        CommitStatus:
+                          type: string
+                          minLength: 1
+                        DPLRefId:
+                          type: string
+                          minLength: 1
+                        ClntType:
+                          type: string
+                          minLength: 1
+              required:
+                - SctiesSttlmTxStsAdvc
+            examples:
+              example-1:
+                value:
+                  SctiesSttlmTxStsAdvc:
+                    TxId:
+                      AcctOwnrTxId: 123ABC
+                    MtchgSts: MRFS
+                    TxDtls:
+                      SfkpgAcct:
+                        Id: 1234567
+                      FinInstrId:
+                        ISIN: ZAE012345678
+                      StlmntQty:
+                        Qty:
+                          Unit: 123456
+                      SctiesMvmntTp: DELI
+                      Pmt: FREE
+                      SttlmDt:
+                        Dt:
+                          Dt: '20210521'
+                      TradDt:
+                        Dt:
+                          Dt: '20210521'
+                    RcvgSttlmPties:
+                      Pty1:
+                        Id: BPID
+                      Pty2:
+                        Id: BPID
+                      Pty3:
+                        Id: BPID
+                    DlvrgSttlmPties:
+                      Pty1:
+                        Id: BPID
+                      Pty2:
+                        Id: BPID
+                      Pty3:
+                        Id: BPID
+                    SplmtryData:
+                      GrpRefId: ABC1234
+                      BTBRefId: ABC1234
+                      CntrBTBRefId: ABC1234
+                      BTBRmvlInd: ABC1234
+                      TaxInd: ABC1234
+                      CommitStatus: ABC1234
+                      DPLRefId: ABC1234
+                      ClntType: ABC1234
+        description: ''
+      description: 'This message is sent by an account servicer (account servicing Institution) to an account owner or its designated agent. The account servicer may be a local agent (sub-custodian) acting on behalf of their global custodian customer, or a custodian acting on behalf of an investment management institution or a broker/dealer.'
+  /ErrorAdvice:
+    post:
+      summary: ''
+      operationId: post-ErrorAdvice
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                  description:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  ErrorAdvice:
+                    TxId: '123456789012'
+                    Errors:
+                      - FieldId: '90'
+                        Description: ErrorDescription
+                      - FieldId: '91'
+                        Description: ErrorDescription
+                    DtTm: '202106120930'
+                    BpRef: '123456789012'
+              properties:
+                ErrorAdvice:
+                  type: object
+                  required:
+                    - TxId
+                    - Errors
+                    - DtTm
+                  properties:
+                    TxId:
+                      type: string
+                      minLength: 1
+                    Errors:
+                      type: array
+                      uniqueItems: true
+                      minItems: 1
+                      items:
+                        type: object
+                        properties:
+                          FieldId:
+                            type: string
+                            minLength: 1
+                          Description:
+                            type: string
+                            minLength: 1
+                        required:
+                          - FieldId
+                          - Description
+                    DtTm:
+                      type: string
+                      minLength: 1
+                    BpRef:
+                      type: string
+                      minLength: 1
+              required:
+                - ErrorAdvice
+      description: This message is used by STRATE to give negative acknowledgement of the input message received from the Business Partner based on formal validations on the input message received.
+components:
+  schemas:
+    error-response:
+      title: error-response
+      type: object
+      properties:
+        code:
+          type: string
+        description:
+          type: string
+tags:
+  - name: MXtoMT
