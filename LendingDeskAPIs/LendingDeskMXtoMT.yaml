@@ -136,9 +136,11 @@ paths:
                         SctiesMvmntTp:
                           type: string
                           minLength: 1
+                          description: DELI or RECI
                         Pmt:
                           type: string
                           minLength: 1
+                          description: FREE or APMT
                     TradDtls:
                       type: object
                       required:
